@@ -1,0 +1,34 @@
+p {
+    padding: 0;
+    margin: 0;
+}
+
+.five-minute-block {
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    color: black;
+    width: 100%;
+    height: 4px;
+    font-size: 10px;
+}
+
+.five-minute-block:first-child {
+    margin-top: 16px;
+    border-top: 2px solid black;
+}
+
+.five-minute-block:last-child {
+    margin-bottom: 16px;
+    border-bottom: 2px solid black;
+}
+
+.thirty-minute-block {
+    border-top: 1px solid grey;
+    height: 16px;
+}
+
+.hour-block {
+    border-top: 1px solid black;
+    height: 16px;
+}
