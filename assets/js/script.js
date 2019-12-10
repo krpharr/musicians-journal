@@ -74,7 +74,7 @@ function test() {
 // pay: "",
 
 function myEvent() {
-
+    this.id = "";
     this.summary = "";
     this.description = "";
     this.colorId = "";
@@ -83,12 +83,18 @@ function myEvent() {
     this.duration = "";
 
     this.set = function(summary = "", description = "", colorId = "", start = "", end = "", duration = "") {
+        this.id = this.getID();
         this.summary = summary;
         this.description = description;
         this.colorId = colorId;
         this.start = start;
         this.end = end;
         this.duration = duration;
+    };
+
+    this.getID = function() {
+        this.id = moment().format("x");
+        return this.id;
     };
 
 };
@@ -139,6 +145,7 @@ function displayEvent(event) {
     // find div to attach event to 
     var divArray = $(".five-minute-block");
     console.log(divArray);
+    console.log("event.id: " + event.getID());
     console.log("event.start: " + event.start);
     var divEl = null;
     var startIndex = null;
@@ -160,8 +167,8 @@ function displayEvent(event) {
 
     console.log("div !== null");
     var eventDiv = $("<div>");
-
     eventDiv.addClass("event position-absolute");
+    eventDiv.attr("data-id", event.id);
     console.log(eventDiv);
     console.log(event.summary);
     eventDiv.text(event.summary);
@@ -211,6 +218,20 @@ function buildTimeLine() {
         }
     }
 }
+
+$(".event").on("click", function() {
+    console.log(this);
+});
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
 
 var span = $("<span>");
 
