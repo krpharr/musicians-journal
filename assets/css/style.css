@@ -40,5 +40,8 @@ p {
     height: 32px;
     background-color: green;
     opacity: 1;
+    border-radius: 10px;
+    color: white;
+    ;
     /* z-index: 100; */
 }

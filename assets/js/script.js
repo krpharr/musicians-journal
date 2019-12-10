@@ -32,13 +32,15 @@ function test() {
     var e1 = new myEvent;
     var e2 = new myEvent;
     var e3 = new myEvent;
+    var e4 = new myEvent;
 
     e0.set("bass", "upright", "green", "2019-12-09T13:00:00-05:00", "2019-12-09T14:00:00-05:00", "3 hours");
     e1.set("bootcamp", "ajax", "red", "2019-12-10T13:00:00-05:00", "2019-12-10T14:00:00-05:00", "3 hours");
     e2.set("code", "homework", "blue", "2019-12-10T11:00:00-05:00", "2019-12-10T12:00:00-05:00", "");
     e3.set("bass", "upright", "green", "2019-12-11T13:00:00-05:00", "2019-12-11T14:00:00-05:00", "3 hours");
+    e4.set("class", "upright", "green", "2019-12-10T15:10:00-05:00", "2019-12-10T16:55:00-05:00", "3 hours");
 
-    var ea = [e0, e1, e2, e3];
+    var ea = [e0, e1, e2, e3, e4];
     var ls = getLocalStorage();
     console.log(ls);
     setLocalStorage(ea);
@@ -139,18 +141,20 @@ function displayEvent(event) {
     console.log(divArray);
     console.log("event.start: " + event.start);
     var divEl = null;
-    var index = null;
+    var startIndex = null;
+    var endIndex = null;
     for (i = 0; i < divArray.length; i++) {
         if (event.start === divArray[i].getAttribute("data-time")) {
-
-            index = i;
-            break;
+            startIndex = i;
+        }
+        if (event.end === divArray[i].getAttribute("data-time")) {
+            endIndex = i;
         }
     }
     console.log("index");
-    console.log(index);
+    console.log(startIndex);
     // create div to attach
-    if (index === null) {
+    if (startIndex === null) {
         return;
     }
 
@@ -161,15 +165,21 @@ function displayEvent(event) {
     console.log(eventDiv);
     console.log(event.summary);
     eventDiv.text(event.summary);
+    var top = divArray[startIndex].offsetTop;
+    var width = divArray[startIndex].offsetWidth;
+    var width = width - 48;
+    var height = divArray[endIndex].offsetTop - top;
     // eventDiv.attr("left", divArray[index].offsetLeft + "px");
     // eventDiv.attr("top", divArray[index].offsetTop + "px");
-    var str = "top:" + divArray[index].offsetTop + "px;left:64px;"
+    var str = "top:" + top + "px;left:64px;width:" + width + "px;height:" + height + "px;";
     eventDiv.attr("style", str);
 
     // divEl.append(eventDiv);
-    console.log(divArray[index].offsetLeft);
-    console.log(divArray[index].offsetTop);
-    divArray[index].setAttribute("background-color", "green");
+    console.log(divArray[startIndex].offsetTop);
+    console.log(divArray[startIndex].offsetLeft);
+    console.log(divArray[startIndex].offsetWidth);
+
+    divArray[startIndex].setAttribute("background-color", "green");
 
     $("#itenerary-view-ID").append(eventDiv);
 
