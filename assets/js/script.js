@@ -41,6 +41,7 @@ function test() {
     e4.set("class", "upright", "green", "2019-12-10T15:10:00-05:00", "2019-12-10T16:55:00-05:00", "3 hours");
 
     var ea = [e0, e1, e2, e3, e4];
+    console.log(ea);
     var ls = getLocalStorage();
     console.log(ls);
     setLocalStorage(ea);
@@ -74,7 +75,7 @@ function test() {
 // pay: "",
 
 function myEvent() {
-    this.id = "";
+    this.dataID = "";
     this.summary = "";
     this.description = "";
     this.colorId = "";
@@ -83,18 +84,13 @@ function myEvent() {
     this.duration = "";
 
     this.set = function(summary = "", description = "", colorId = "", start = "", end = "", duration = "") {
-        this.id = this.getID();
+        this.dataID = Math.random().toString(36).substr(2, 16);
         this.summary = summary;
         this.description = description;
         this.colorId = colorId;
         this.start = start;
         this.end = end;
         this.duration = duration;
-    };
-
-    this.getID = function() {
-        this.id = moment().format("x");
-        return this.id;
     };
 
 };
@@ -145,8 +141,9 @@ function displayEvent(event) {
     // find div to attach event to 
     var divArray = $(".five-minute-block");
     console.log(divArray);
-    console.log("event.id: " + event.getID());
+    // console.log("event.dataID: " + event.getID());
     console.log("event.start: " + event.start);
+    console.log("colorID: " + event.colorId);
     var divEl = null;
     var startIndex = null;
     var endIndex = null;
@@ -160,15 +157,13 @@ function displayEvent(event) {
     }
     console.log("index");
     console.log(startIndex);
-    // create div to attach
     if (startIndex === null) {
         return;
     }
-
     console.log("div !== null");
     var eventDiv = $("<div>");
     eventDiv.addClass("event position-absolute");
-    eventDiv.attr("data-id", event.id);
+    eventDiv.attr("data-id", event.dataID);
     console.log(eventDiv);
     console.log(event.summary);
     eventDiv.text(event.summary);
@@ -176,18 +171,11 @@ function displayEvent(event) {
     var width = divArray[startIndex].offsetWidth;
     var width = width - 48;
     var height = divArray[endIndex].offsetTop - top;
-    // eventDiv.attr("left", divArray[index].offsetLeft + "px");
-    // eventDiv.attr("top", divArray[index].offsetTop + "px");
-    var str = "top:" + top + "px;left:64px;width:" + width + "px;height:" + height + "px;";
+    var str = "top:" + top + "px;left:64px;width:" + width + "px;height:" + height + "px;background-color:" + event.colorId + ";";
     eventDiv.attr("style", str);
-
-    // divEl.append(eventDiv);
     console.log(divArray[startIndex].offsetTop);
     console.log(divArray[startIndex].offsetLeft);
     console.log(divArray[startIndex].offsetWidth);
-
-    divArray[startIndex].setAttribute("background-color", "green");
-
     $("#itenerary-view-ID").append(eventDiv);
 
 }
@@ -220,7 +208,31 @@ function buildTimeLine() {
 }
 
 $(".event").on("click", function() {
-    console.log(this);
+    // console.log(this.getAttribute("data-id"));
+
+    // set view to event-view
+
+    // populate fields
+
+    ////find corresponding event
+    eventArray = getLocalStorage();
+    console.log(eventArray);
+    var selectedElement = this;
+    var selectedEventArray = eventArray.filter(function(event) {
+        console.log("selectedElement data-id " + selectedElement.getAttribute("data-id"));
+        console.log("event.dataID" + event.dataID);
+        return event.dataID === selectedElement.getAttribute("data-id");
+    });
+    console.log("selectedEventArray");
+    console.log(selectedEventArray);
+    console.log(selectedEventArray[0].summary);
+    var event = selectedEventArray[0];
+    $("#event-summary-ID").text(event.summary);
+    $("#event-start-ID").text(event.start);
+    $("#event-end-ID").text(event.end);
+    $("#event-duration-ID").text(event.duration);
+    $("#event-description-ID").text(event.description);
+    $("#event-colorId-ID").text(event.colorId);
 });
 
 
