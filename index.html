@@ -33,22 +33,63 @@
 
             </div>
 
+            <div class="col-sm-12 col-md-6" id="event-view-ID">
+                <h3 id="event-summary-ID">
+                </h3>
+                <p id="event-start-ID"></p>
+                <p id="event-end-ID"></p>
+                <p id="event-duration-ID"></p>
+                <p id="event-description-ID"></p>
+                <p id="event-colorId-ID"></p>
+                <button id="event-edit-button-ID">Edit</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-6" id="event-event-view-ID">
+                <form>
+                    <div class="form-group">
+                        <label for="event-summary-input-ID">Event Summary</label>
+                        <input class="" type="text" id="event-summary-input-ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="start-date-select-ID">Start date</label>
+                        <select class="form-control" id="start-date-select-ID"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="end-date-select-ID">End date</label>
+                        <select class="form-control" id="end-date-select-ID"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="start-time-select-ID">Start time</label>
+                        <select class="form-control" id="start-time-select-ID"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="end-time-select-ID">End time</label>
+                        <select class="form-control" id="end-time-select-ID"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-description-input-ID">Description</label>
+                        <input class="" type="text" id="event-description-input-ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="event-color-select-ID">Color</label>
+                        <select class="form-control" id="event-color-select-ID"></select>
+                    </div>
+                    <button class="btn" type="submit" id="edit-event-submit-ID">OK</button>
+                </form>
+            </div>
+
             <div class="col-sm-12 col-md-6">
                 <div id="year"></div>
                 <div id="month"></div>
                 <div id="date"></div>
                 <div id="time"></div>
-
-
                 <p>Google Calendar API Quickstart</p>
-
                 <!--Add buttons to initiate auth sequence and sign out-->
                 <button id="authorize_button" style="display: none;">Authorize</button>
                 <button id="signout_button" style="display: none;">Sign Out</button>
-
                 <pre id="content" style="white-space: pre-wrap;"></pre>
-
-
                 <div id="test-display"></div>
             </div>
         </div>
