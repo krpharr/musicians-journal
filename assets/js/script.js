@@ -50,6 +50,10 @@ function test() {
     var events = getEventsByDate(testMoment, ea);
     console.log("**********")
     console.log(events);
+
+    events.forEach(event => {
+        displayEvent(event);
+    });
 }
 
 // created: "",
@@ -121,34 +125,54 @@ function getEventsByDate(dateStr, eventArray) {
         if (date.year() === eventStart.year() && date.month() === eventStart.month() && date.date() === eventStart.date()) {
             events.push(event);
         }
-
     });
 
     console.log(events);
     return events;
 }
 
+
+
 function displayEvent(event) {
     // find div to attach event to 
     var divArray = $(".five-minute-block");
     console.log(divArray);
-    console.log(divArray[0]);
-    console.log(divArray[1]);
-    var d = divArray[0];
-    var dTime = d.getAttribute("data-time");
-    console.log(dTime);
+    console.log("event.start: " + event.start);
+    var divEl = null;
+    var index = null;
+    for (i = 0; i < divArray.length; i++) {
+        if (event.start === divArray[i].getAttribute("data-time")) {
 
-    var beginTime = moment(divArray[0].getAttribute("data-time"));
-    var endTime = beginTime.add(8, "hours");
-    var targetDivArray = divArray.filter(div => {
-        if (moment(event.start).isBetween(beginTime, endTime)) {
-            return div;
+            index = i;
+            break;
         }
-    });
-
-    console.log("*******************");
-    console.log(targetDivArray);
+    }
+    console.log("index");
+    console.log(index);
     // create div to attach
+    if (index === null) {
+        return;
+    }
+
+    console.log("div !== null");
+    var eventDiv = $("<div>");
+
+    eventDiv.addClass("event position-absolute");
+    console.log(eventDiv);
+    console.log(event.summary);
+    eventDiv.text(event.summary);
+    // eventDiv.attr("left", divArray[index].offsetLeft + "px");
+    // eventDiv.attr("top", divArray[index].offsetTop + "px");
+    var str = "top:" + divArray[index].offsetTop + "px;left:64px;"
+    eventDiv.attr("style", str);
+
+    // divEl.append(eventDiv);
+    console.log(divArray[index].offsetLeft);
+    console.log(divArray[index].offsetTop);
+    divArray[index].setAttribute("background-color", "green");
+
+    $("#itenerary-view-ID").append(eventDiv);
+
 }
 
 function buildTimeLine() {
@@ -159,8 +183,8 @@ function buildTimeLine() {
         for (var j = 0; j < 12; j++) { //5 min block loop
             var div = $("<div>");
             var p = $("<p>");
-            var m = moment().month(month).date(date).hour(hour + i).minute(j * 5);
-            div.attr("data-time", m);
+            var m = moment().month(month).date(date).hour(hour + i).minute(j * 5).seconds(0);
+            div.attr("data-time", m.format());
             if (j % 6 === 0) {
                 p.text(m.format('h:mm a'));
                 div.append(p);
