@@ -207,34 +207,43 @@ function buildTimeLine() {
     }
 }
 
-$(".event").on("click", function() {
-    // console.log(this.getAttribute("data-id"));
-
-    // set view to event-view
-
-    // populate fields
-
-    ////find corresponding event
+function getEventByID(id) {
     eventArray = getLocalStorage();
     console.log(eventArray);
-    var selectedElement = this;
-    var selectedEventArray = eventArray.filter(function(event) {
-        console.log("selectedElement data-id " + selectedElement.getAttribute("data-id"));
-        console.log("event.dataID" + event.dataID);
-        return event.dataID === selectedElement.getAttribute("data-id");
+    var rArray = eventArray.filter(function(event) {
+        return event.dataID === id;
     });
-    console.log("selectedEventArray");
-    console.log(selectedEventArray);
-    console.log(selectedEventArray[0].summary);
-    var event = selectedEventArray[0];
+    return rArray[0];
+}
+
+$(".event").on("click", function() {
+    // set view to event-view
+    //
+    ////
+
+    var event = getEventByID(this.getAttribute("data-id"));
     $("#event-summary-ID").text(event.summary);
     $("#event-start-ID").text(event.start);
     $("#event-end-ID").text(event.end);
     $("#event-duration-ID").text(event.duration);
     $("#event-description-ID").text(event.description);
     $("#event-colorId-ID").text(event.colorId);
+    $("#event-edit-button-ID").attr("data-id", event.dataID);
 });
 
+$("#event-edit-button-ID").on("click", function() {
+    console.log(this);
+
+    // set view to edit-event-view
+
+
+    // get event 
+    var event = getEventByID(this.getAttribute("data-id"));
+    $("#event-summary-input-ID").val(event.summary);
+    $("#event-description-input-ID").val(event.description);
+
+
+});
 
 
 
