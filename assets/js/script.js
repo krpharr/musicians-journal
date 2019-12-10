@@ -1,43 +1,182 @@
-// google calendar api key for varsphilos
-// AIzaSyAw4l7Jzmsi0rv9Hjjn8mWWFNIP1DS06V0
-
+var year = moment().year();
 var month = moment().month();
 var date = moment().date();
+var eventArray = [];
 
+$("#year").text(year);
 $("#month").text(month);
 $("#date").text(date);
 $("#time").text(moment().hour() + ":" + moment().min());
 
-var hour = 9;
-var minute = 0;
-var fiveMins = moment.duration(5, "minutes");
 
-for (var i = 0; i < 8; i++) { //hour loop
-    console.log("i: " + i);
-    for (var j = 0; j < 12; j++) { //5 min block loop
-        var div = $("<div>");
-        var p = $("<p>");
-        var m = moment().month(month).date(date).hour(hour + i).minute(j * 5);
-        if (j % 6 === 0) {
-            p.text(m.format('h:mm a'));
-            div.append(p);
 
-            if (j % 12 === 0) {
-                div.addClass("five-minute-block hour-block");
-            } else {
+init();
 
-                div.addClass("five-minute-block thirty-minute-block");
+test();
 
-            }
-        } else {
-            div.addClass("five-minute-block");
-        }
-        $("#itenerary-view-ID").append(div);
-    }
-
+function init() {
+    buildTimeLine();
 }
 
+function test() {
 
+    var testMoment = moment("2019-12-10T01:00:00-05:00");
+
+    console.log("test moment:\t" + testMoment);
+    console.log("test month:\t" + testMoment.month());
+    console.log("test date:\t" + testMoment.date());
+    console.log("test hour:\t" + testMoment.hour());
+    console.log("test minute:\t" + testMoment.minute());
+
+    var e0 = new myEvent;
+    var e1 = new myEvent;
+    var e2 = new myEvent;
+    var e3 = new myEvent;
+
+    e0.set("bass", "upright", "green", "2019-12-09T13:00:00-05:00", "2019-12-09T14:00:00-05:00", "3 hours");
+    e1.set("bootcamp", "ajax", "red", "2019-12-10T13:00:00-05:00", "2019-12-10T14:00:00-05:00", "3 hours");
+    e2.set("code", "homework", "blue", "2019-12-10T11:00:00-05:00", "2019-12-10T12:00:00-05:00", "");
+    e3.set("bass", "upright", "green", "2019-12-11T13:00:00-05:00", "2019-12-11T14:00:00-05:00", "3 hours");
+
+    var ea = [e0, e1, e2, e3];
+    var ls = getLocalStorage();
+    console.log(ls);
+    setLocalStorage(ea);
+    ls = getLocalStorage();
+    console.log(ls);
+
+    // displayEvent(e1);
+
+    var events = getEventsByDate(testMoment, ea);
+    console.log("**********")
+    console.log(events);
+}
+
+// created: "",
+// updated: "",
+// summary: "",
+// description: "",
+// colorId: "",
+// start: "",
+// end: "",
+// duration: "",
+// type: "",
+// origin: "",
+// destination: "",
+// mileage: "",
+// rate: "",
+// pay: "",
+
+function myEvent() {
+
+    this.summary = "";
+    this.description = "";
+    this.colorId = "";
+    this.start = "";
+    this.end = "";
+    this.duration = "";
+
+    this.set = function(summary = "", description = "", colorId = "", start = "", end = "", duration = "") {
+        this.summary = summary;
+        this.description = description;
+        this.colorId = colorId;
+        this.start = start;
+        this.end = end;
+        this.duration = duration;
+    };
+
+};
+
+function getLocalStorage() {
+    //returns array of events from local Storage if exists otherwise returns null
+    var lsData = JSON.parse(localStorage.getItem("musicians-journal"));
+    // var eventArray = [];
+    // lsData.forEach(event => {
+
+    // });
+    return lsData;
+}
+
+function setLocalStorage(eventArray) {
+    localStorage.setItem("musicians-journal", JSON.stringify(eventArray));
+}
+
+function getEventsByDate(dateStr, eventArray) {
+    var date = moment(dateStr);
+    console.log("date: " + date);
+    var events = [];
+    eventArray.forEach(event => {
+        var eventStart = moment(event.start);
+        console.log("Date: " + date);
+        console.log("Event start: " + eventStart);
+        console.log("date");
+        console.log(date.year());
+        console.log(date.month());
+        console.log(date.date());
+        console.log("event");
+        console.log(eventStart.year());
+        console.log(eventStart.month());
+        console.log(eventStart.date());
+
+        if (date.year() === eventStart.year() && date.month() === eventStart.month() && date.date() === eventStart.date()) {
+            events.push(event);
+        }
+
+    });
+
+    console.log(events);
+    return events;
+}
+
+function displayEvent(event) {
+    // find div to attach event to 
+    var divArray = $(".five-minute-block");
+    console.log(divArray);
+    console.log(divArray[0]);
+    console.log(divArray[1]);
+    var d = divArray[0];
+    var dTime = d.getAttribute("data-time");
+    console.log(dTime);
+
+    var beginTime = moment(divArray[0].getAttribute("data-time"));
+    var endTime = beginTime.add(8, "hours");
+    var targetDivArray = divArray.filter(div => {
+        if (moment(event.start).isBetween(beginTime, endTime)) {
+            return div;
+        }
+    });
+
+    console.log("*******************");
+    console.log(targetDivArray);
+    // create div to attach
+}
+
+function buildTimeLine() {
+    var hour = 9;
+    var minute = 0;
+    for (var i = 0; i < 8; i++) { //hour loop
+        console.log("i: " + i);
+        for (var j = 0; j < 12; j++) { //5 min block loop
+            var div = $("<div>");
+            var p = $("<p>");
+            var m = moment().month(month).date(date).hour(hour + i).minute(j * 5);
+            div.attr("data-time", m);
+            if (j % 6 === 0) {
+                p.text(m.format('h:mm a'));
+                div.append(p);
+                if (j % 12 === 0) {
+                    div.addClass("five-minute-block hour-block");
+                } else {
+
+                    div.addClass("five-minute-block thirty-minute-block");
+                }
+            } else {
+                div.addClass("five-minute-block");
+            }
+            $("#itenerary-view-ID").append(div);
+        }
+    }
+}
 
 var span = $("<span>");
 
@@ -88,7 +227,7 @@ div.append(hourSpan);
 $("#test-display").append(div);
 
 
-console.log("hour: " + hour)
+console.log("hour: " + hour);
 var hourFromNow = now.add(hour);
 console.log(hourFromNow);
 
@@ -104,123 +243,3 @@ for (var i = -7; i < 7; i++) {
 }
 
 $("#test-display").append(ul);
-
-
-
-// Client ID and API key from the Developer Console
-var CLIENT_ID = '619279516895-4cqkn60nbmsmo23eegg6hlj9ipvag0mq.apps.googleusercontent.com';
-var API_KEY = 'AIzaSyAw4l7Jzmsi0rv9Hjjn8mWWFNIP1DS06V0';
-
-// Array of API discovery doc URLs for APIs used by the quickstart
-var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-
-// Authorization scopes required by the API; multiple scopes can be
-// included, separated by spaces.
-var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
-
-var authorizeButton = document.getElementById('authorize_button');
-var signoutButton = document.getElementById('signout_button');
-
-/**
- *  On load, called to load the auth2 library and API client library.
- */
-function handleClientLoad() {
-    gapi.load('client:auth2', initClient);
-}
-
-/**
- *  Initializes the API client library and sets up sign-in state
- *  listeners.
- */
-function initClient() {
-    gapi.client.init({
-        apiKey: API_KEY,
-        clientId: CLIENT_ID,
-        discoveryDocs: DISCOVERY_DOCS,
-        scope: SCOPES
-    }).then(function() {
-        // Listen for sign-in state changes.
-        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-
-        // Handle the initial sign-in state.
-        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-        authorizeButton.onclick = handleAuthClick;
-        signoutButton.onclick = handleSignoutClick;
-    }, function(error) {
-        appendPre(JSON.stringify(error, null, 2));
-    });
-}
-
-/**
- *  Called when the signed in status changes, to update the UI
- *  appropriately. After a sign-in, the API is called.
- */
-function updateSigninStatus(isSignedIn) {
-    if (isSignedIn) {
-        authorizeButton.style.display = 'none';
-        signoutButton.style.display = 'block';
-        listUpcomingEvents();
-    } else {
-        authorizeButton.style.display = 'block';
-        signoutButton.style.display = 'none';
-    }
-}
-
-/**
- *  Sign in the user upon button click.
- */
-function handleAuthClick(event) {
-    gapi.auth2.getAuthInstance().signIn();
-}
-
-/**
- *  Sign out the user upon button click.
- */
-function handleSignoutClick(event) {
-    gapi.auth2.getAuthInstance().signOut();
-}
-
-/**
- * Append a pre element to the body containing the given message
- * as its text node. Used to display the results of the API call.
- *
- * @param {string} message Text to be placed in pre element.
- */
-function appendPre(message) {
-    var pre = document.getElementById('content');
-    var textContent = document.createTextNode(message + '\n');
-    pre.appendChild(textContent);
-}
-
-/**
- * Print the summary and start datetime/date of the next ten events in
- * the authorized user's calendar. If no events are found an
- * appropriate message is printed.
- */
-function listUpcomingEvents() {
-    gapi.client.calendar.events.list({
-        'calendarId': 'primary',
-        'timeMin': (new Date()).toISOString(),
-        'showDeleted': false,
-        'singleEvents': true,
-        'maxResults': 10,
-        'orderBy': 'startTime'
-    }).then(function(response) {
-        var events = response.result.items;
-        appendPre('Upcoming events:');
-
-        if (events.length > 0) {
-            for (i = 0; i < events.length; i++) {
-                var event = events[i];
-                console.log(event);
-                var when = event.start.dateTime;
-                if (!when) {
-                    when = event.start.date;
-                }
-                appendPre(event.summary + ' (' + when + ')')
-            }
-        } else {
-            appendPre('No upcoming events found.');
-        }
-    });
-}
