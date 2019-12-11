@@ -53,6 +53,7 @@
                     <div class="form-group">
                         <!-- <label for="event-summary-input-ID">Event Summary</label> -->
                         <input class="" type="text" id="event-summary-input-ID" placeholder="Enter title, people and places.">
+                        <p id="event-summary-input-error-ID"></p>
                     </div>
                     <div>
                         <div id="embed-picker"></div>
@@ -82,6 +83,7 @@
                                 <option value="am">am</option>
                                 <option value="pm">pm</option>
                             </select>
+                            <p id="start-time-error-ID"></p>
                         </div>
                     </div>
                     <div class="form-inline">
@@ -107,6 +109,7 @@
                                 <option value="pm">pm</option>
 
                             </select>
+                            <p id="end-time-error-ID"></p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -126,7 +129,7 @@
 
                         </select>
                     </div>
-                    <button class="btn" type="submit" id="edit-event-submit-ID">OK</button>
+                    <button class="btn" type="submit " id="edit-event-submit-ID" disabled>OK</button>
                 </form>
             </div>
 

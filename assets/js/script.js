@@ -33,11 +33,11 @@ function test() {
     var e3 = new myEvent;
     var e4 = new myEvent;
 
-    e0.set("bass", "upright", "green", "2019-12-11T09:00:00-05:00", "2019-12-11T09:30:00-05:00", "");
+    e0.set("bass", "upright", "yellow", "2019-12-11T09:00:00-05:00", "2019-12-11T09:30:00-05:00", "");
     e1.set("bootcamp", "ajax", "red", "2019-12-11T09:45:00-05:00", "2019-12-11T12:50:00-05:00", "");
-    e2.set("code", "homework", "blue", "2019-12-10T11:00:00-05:00", "2019-12-10T12:00:00-05:00", "");
-    e3.set("bass", "upright", "green", "2019-12-11T13:00:00-05:00", "2019-12-11T14:00:00-05:00", "");
-    e4.set("class", "upright", "green", "2019-12-10T15:10:00-05:00", "2019-12-10T16:55:00-05:00", "");
+    e2.set("code", "homework", "blue", "2019-12-11T13:10:00-05:00", "2019-12-11T13:35:00-05:00", "");
+    e3.set("bass", "upright", "green", "2019-12-11T15:15:00-05:00", "2019-12-11T15:30:00-05:00", "");
+    e4.set("class", "upright", "purple", "2019-12-11T16:25:00-05:00", "2019-12-11T16:55:00-05:00", "");
 
     var ea = [e0, e1, e2, e3, e4];
     console.log(ea);
@@ -178,14 +178,6 @@ function buildTimeLine() {
 }
 
 function buildSelectMinInputs() {
-
-    // var rArray = $(".min-select");
-    // console.log("#############")
-    // console.log(rArray);
-    // rArray.forEach(function(r) {
-    //     console.log(r);
-    // });
-    // console.log(a);
     console.log("buildSelectMinInputs");
     $(".min-select").each(function() {
         console.log(this);
@@ -197,8 +189,6 @@ function buildSelectMinInputs() {
 }
 
 function buildMinSelectInputByID(selectID) {
-    // $(selectID)
-    // minutesDisplay.textContent = ("0" + mins).slice(-2);
     for (var i = 0; i < 60; i += 5) {
         var str = ("0" + i).slice(-2);
         var opt = $("<option value=" + str + ">").text(str);
@@ -231,7 +221,7 @@ function setTimeSelectorsToMomentByID(time, id) {
     console.log(hour, min, ampm);
     // console.log($(id))
     // console.log($(id).children())
-    selArray = $(id).children("select");
+    var selArray = $(id).children("select");
     console.log(selArray);
     console.log(typeof hour);
     $(selArray[0]).val(parseInt(hour)); // values were hard coded as integers
@@ -239,6 +229,65 @@ function setTimeSelectorsToMomentByID(time, id) {
     $(selArray[2]).val(ampm);
 
 }
+
+function getMomentFromTimeSelector(id) {
+    var selArray = $(id).children("select");
+    var date = $("#embed-picked").text();
+    var hour = parseInt($(selArray[0]).val());
+    var min = $(selArray[1]).val();
+    var ampm = $(selArray[2]).val();
+    if (ampm === "pm") {
+        hour += 12;
+    }
+    date = date.replace(/(\d\d)\/(\d\d)\/(\d{4})/, "$3-$1-$2");
+    var time = hour + ":" + min;
+    var m = moment(date + " " + time);
+    return m.format();
+}
+
+var editFormValid = {
+    title: false,
+    startTime: false,
+    endTime: false
+}
+
+function editFormCheck() {
+
+    // if (formValid.title && editFormValid.startTime && editFormValid.endTime) {
+    if (editFormValid.title) {
+
+        $('#edit-event-submit-ID').removeAttr('disabled'); // Allow submitting of form
+    } else {
+        $('#edit-event-submit-ID').attr('disabled', true); // Block form from being submitted
+    }
+
+    //start-time >= min_time?
+    getMomentFromTimeSelector("#start-time-selectID");
+
+    //end-time <= max_time?
+
+    //end-time > start-time?
+
+
+}
+
+$("#event-summary-input-ID").on("input", function() {
+    console.log("*********** on input event-summary-input-ID ******************");
+    var str = $(this).val();
+    if (str.length < 1) {
+        editFormValid.title = false;
+        $("#event-summary-input-error-ID").text("*").show()
+    } else {
+        editFormValid.title = true;
+        $("#event-summary-input-error-ID").hide();
+    }
+    editFormCheck();
+});
+
+$("#edit-event-submit-ID").on("click", function(event) {
+    event.preventDefault();
+
+});
 
 $(".event").on("click", function() {
     // set view to event-view
@@ -283,70 +332,3 @@ $("#embed-picker").datepicker({
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
-
-
-var span = $("<span>");
-
-var now = moment();
-var when = moment().add(7, 'days').subtract(1, 'months').year(2009).hours(0).minutes(0).seconds(0);
-// var now = moment("12-25-1995", "MM-DD-YYYY");
-
-console.log(now);
-console.log(now._d);
-// span.text(now._d);
-// span.text(now);
-span.text(when);
-$("#right-now").append(span);
-
-console.log(moment().date(Number));
-console.log(moment().date()); // Number
-console.log(moment().hour(Number));
-console.log(moment().minute(Number));
-console.log(moment().hour()); // Number
-
-var start = moment({
-    year: 2019,
-    month: 11,
-    day: 7,
-    hour: 15,
-    minute: 10
-});
-
-var hour = moment.duration(1, 'hours');
-
-var halfhour = moment.duration(30, 'minutes');
-
-var div = $("<div>");
-
-var startSpan = $("<p>");
-startSpan.text(start);
-div.append(startSpan);
-
-var halfHourSpan = $("<p>");
-halfHourSpan.text(start.add(halfhour));
-div.append(halfHourSpan);
-
-var hourSpan = $("<p>");
-hourSpan.text(start.add(hour));
-
-div.append(hourSpan);
-
-$("#test-display").append(div);
-
-
-console.log("hour: " + hour);
-var hourFromNow = now.add(hour);
-console.log(hourFromNow);
-
-var ul = $("<ul>");
-
-for (var i = -7; i < 7; i++) {
-    var li = $("<li>");
-    var storedDate = moment().day(i);
-    console.log(storedDate.isBefore(now));
-    storedDate.isBefore(now) ? li.attr("style", "color:grey") : li.attr("style", "color:green");
-    li.text(storedDate);
-    ul.append(li);
-}
-
-$("#test-display").append(ul);
