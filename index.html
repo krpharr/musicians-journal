@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/style.css">
 
-    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <script src="assets/js/moment.js"></script>
     <script>
         moment().format();
@@ -22,7 +23,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="jumbotron jumbotron-fluid text-center mb-2">
-                    <h1 class="display-4">Title</h1>
+                    <h1 class="display-4">musicians-journal</h1>
                 </div>
 
             </div>
@@ -52,6 +53,12 @@
                     <div class="form-group">
                         <label for="event-summary-input-ID">Event Summary</label>
                         <input class="" type="text" id="event-summary-input-ID">
+                    </div>
+                    <div>
+                        <div id="embed-picker"></div>
+                        <div>
+                            <h3 id="embed-picked"></h3>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="start-date-select-ID">Start date</label>
@@ -105,6 +112,10 @@
     </script>
 
     <script src="assets/js/googleapi.js"></script>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script src="assets/js/script.js"></script>
 
 </body>

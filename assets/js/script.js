@@ -8,8 +8,6 @@ $("#month").text(month);
 $("#date").text(date);
 $("#time").text(moment().hour() + ":" + moment().min());
 
-
-
 init();
 
 test();
@@ -111,39 +109,19 @@ function setLocalStorage(eventArray) {
 
 function getEventsByDate(dateStr, eventArray) {
     var date = moment(dateStr);
-    console.log("date: " + date);
     var events = [];
     eventArray.forEach(event => {
         var eventStart = moment(event.start);
-        console.log("Date: " + date);
-        console.log("Event start: " + eventStart);
-        console.log("date");
-        console.log(date.year());
-        console.log(date.month());
-        console.log(date.date());
-        console.log("event");
-        console.log(eventStart.year());
-        console.log(eventStart.month());
-        console.log(eventStart.date());
-
         if (date.year() === eventStart.year() && date.month() === eventStart.month() && date.date() === eventStart.date()) {
             events.push(event);
         }
     });
-
-    console.log(events);
     return events;
 }
-
-
 
 function displayEvent(event) {
     // find div to attach event to 
     var divArray = $(".five-minute-block");
-    console.log(divArray);
-    // console.log("event.dataID: " + event.getID());
-    console.log("event.start: " + event.start);
-    console.log("colorID: " + event.colorId);
     var divEl = null;
     var startIndex = null;
     var endIndex = null;
@@ -155,17 +133,12 @@ function displayEvent(event) {
             endIndex = i;
         }
     }
-    console.log("index");
-    console.log(startIndex);
     if (startIndex === null) {
         return;
     }
-    console.log("div !== null");
     var eventDiv = $("<div>");
     eventDiv.addClass("event position-absolute");
     eventDiv.attr("data-id", event.dataID);
-    console.log(eventDiv);
-    console.log(event.summary);
     eventDiv.text(event.summary);
     var top = divArray[startIndex].offsetTop;
     var width = divArray[startIndex].offsetWidth;
@@ -173,9 +146,6 @@ function displayEvent(event) {
     var height = divArray[endIndex].offsetTop - top;
     var str = "top:" + top + "px;left:64px;width:" + width + "px;height:" + height + "px;background-color:" + event.colorId + ";";
     eventDiv.attr("style", str);
-    console.log(divArray[startIndex].offsetTop);
-    console.log(divArray[startIndex].offsetLeft);
-    console.log(divArray[startIndex].offsetWidth);
     $("#itenerary-view-ID").append(eventDiv);
 
 }
@@ -184,7 +154,6 @@ function buildTimeLine() {
     var hour = 9;
     var minute = 0;
     for (var i = 0; i < 8; i++) { //hour loop
-        console.log("i: " + i);
         for (var j = 0; j < 12; j++) { //5 min block loop
             var div = $("<div>");
             var p = $("<p>");
@@ -209,7 +178,6 @@ function buildTimeLine() {
 
 function getEventByID(id) {
     eventArray = getLocalStorage();
-    console.log(eventArray);
     var rArray = eventArray.filter(function(event) {
         return event.dataID === id;
     });
@@ -220,7 +188,6 @@ $(".event").on("click", function() {
     // set view to event-view
     //
     ////
-
     var event = getEventByID(this.getAttribute("data-id"));
     $("#event-summary-ID").text(event.summary);
     $("#event-start-ID").text(event.start);
@@ -232,19 +199,19 @@ $(".event").on("click", function() {
 });
 
 $("#event-edit-button-ID").on("click", function() {
-    console.log(this);
-
     // set view to edit-event-view
-
-
-    // get event 
+    //
+    ////
     var event = getEventByID(this.getAttribute("data-id"));
     $("#event-summary-input-ID").val(event.summary);
     $("#event-description-input-ID").val(event.description);
-
-
 });
 
+$("#embed-picker").datepicker({
+    onSelect: function() {
+        $("#embed-picked").text($(this).val());
+    }
+});
 
 
 
