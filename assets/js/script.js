@@ -14,11 +14,12 @@ test();
 
 function init() {
     buildTimeLine();
+    buildSelectMinInputs();
 }
 
 function test() {
 
-    var testMoment = moment("2019-12-10T01:00:00-05:00");
+    var testMoment = moment("2019-12-11T01:00:00-05:00");
 
     console.log("test moment:\t" + testMoment);
     console.log("test month:\t" + testMoment.month());
@@ -32,11 +33,11 @@ function test() {
     var e3 = new myEvent;
     var e4 = new myEvent;
 
-    e0.set("bass", "upright", "green", "2019-12-09T13:00:00-05:00", "2019-12-09T14:00:00-05:00", "3 hours");
-    e1.set("bootcamp", "ajax", "red", "2019-12-10T13:00:00-05:00", "2019-12-10T14:00:00-05:00", "3 hours");
+    e0.set("bass", "upright", "green", "2019-12-11T09:00:00-05:00", "2019-12-11T09:30:00-05:00", "");
+    e1.set("bootcamp", "ajax", "red", "2019-12-11T09:45:00-05:00", "2019-12-11T12:50:00-05:00", "");
     e2.set("code", "homework", "blue", "2019-12-10T11:00:00-05:00", "2019-12-10T12:00:00-05:00", "");
-    e3.set("bass", "upright", "green", "2019-12-11T13:00:00-05:00", "2019-12-11T14:00:00-05:00", "3 hours");
-    e4.set("class", "upright", "green", "2019-12-10T15:10:00-05:00", "2019-12-10T16:55:00-05:00", "3 hours");
+    e3.set("bass", "upright", "green", "2019-12-11T13:00:00-05:00", "2019-12-11T14:00:00-05:00", "");
+    e4.set("class", "upright", "green", "2019-12-10T15:10:00-05:00", "2019-12-10T16:55:00-05:00", "");
 
     var ea = [e0, e1, e2, e3, e4];
     console.log(ea);
@@ -176,12 +177,67 @@ function buildTimeLine() {
     }
 }
 
+function buildSelectMinInputs() {
+
+    // var rArray = $(".min-select");
+    // console.log("#############")
+    // console.log(rArray);
+    // rArray.forEach(function(r) {
+    //     console.log(r);
+    // });
+    // console.log(a);
+    console.log("buildSelectMinInputs");
+    $(".min-select").each(function() {
+        console.log(this);
+        console.log($(this).attr("id"));
+        var id = "#" + $(this).attr("id");
+        buildMinSelectInputByID(id);
+    });
+
+}
+
+function buildMinSelectInputByID(selectID) {
+    // $(selectID)
+    // minutesDisplay.textContent = ("0" + mins).slice(-2);
+    for (var i = 0; i < 60; i += 5) {
+        var str = ("0" + i).slice(-2);
+        var opt = $("<option value=" + str + ">").text(str);
+
+        $(selectID).append(opt);
+    }
+}
+
 function getEventByID(id) {
     eventArray = getLocalStorage();
     var rArray = eventArray.filter(function(event) {
         return event.dataID === id;
     });
     return rArray[0];
+}
+
+function setTimeSelectorsToMomentByID(time, id) {
+    var m = moment(time);
+    var hour = m.hour();
+    var ampm = "";
+    hour >= 12 ? ampm = "pm" : ampm = "am";
+    if (hour > 12) {
+        hour -= 12;
+    }
+    var hour = ("0" + hour).slice(-2);
+    var min = ("0" + m.minute()).slice(-2);
+    // var min = m.minute();
+
+    console.log("*********** setTimeSelectorsToMomentByID ******************")
+    console.log(hour, min, ampm);
+    // console.log($(id))
+    // console.log($(id).children())
+    selArray = $(id).children("select");
+    console.log(selArray);
+    console.log(typeof hour);
+    $(selArray[0]).val(parseInt(hour)); // values were hard coded as integers
+    $(selArray[1]).val(min);
+    $(selArray[2]).val(ampm);
+
 }
 
 $(".event").on("click", function() {
@@ -204,13 +260,21 @@ $("#event-edit-button-ID").on("click", function() {
     ////
     var event = getEventByID(this.getAttribute("data-id"));
     $("#event-summary-input-ID").val(event.summary);
+    var str = moment(event.start).format("MM/DD/YYYY");
+    $("#embed-picker").datepicker("setDate", str);
+    $("#embed-picked").text(str);
     $("#event-description-input-ID").val(event.description);
+    $("#event-color-select-ID").val(event.colorId);
+    setTimeSelectorsToMomentByID(event.start, "#start-time-selectID")
+    setTimeSelectorsToMomentByID(event.end, "#end-time-selectID")
 });
 
 $("#embed-picker").datepicker({
     onSelect: function() {
         $("#embed-picked").text($(this).val());
     }
+
+
 });
 
 

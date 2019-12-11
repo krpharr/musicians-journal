@@ -51,8 +51,8 @@
             <div class="col-sm-12 col-md-6" id="event-event-view-ID">
                 <form>
                     <div class="form-group">
-                        <label for="event-summary-input-ID">Event Summary</label>
-                        <input class="" type="text" id="event-summary-input-ID">
+                        <!-- <label for="event-summary-input-ID">Event Summary</label> -->
+                        <input class="" type="text" id="event-summary-input-ID" placeholder="Enter title, people and places.">
                     </div>
                     <div>
                         <div id="embed-picker"></div>
@@ -60,21 +60,54 @@
                             <h3 id="embed-picked"></h3>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="start-date-select-ID">Start date</label>
-                        <select class="form-control" id="start-date-select-ID"></select>
+                    <div class="form-inline">
+                        <div class="form-group time-select" id="start-time-selectID">
+                            <label for="start-hour-select-ID">Hour</label>
+                            <select class="form-control" id="start-hour-select-ID">
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <!-- <option value="5">05</option> -->
+
+                            </select>
+                            <label for="start-min-select-ID">Min</label>
+                            <select class="form-control min-select" id="start-min-select-ID"></select>
+                            <!-- <label for="start-time-select-ID">AM-PM</label> -->
+                            <select class="form-control" id="start-ampm-select-ID">
+                                <option value="am">am</option>
+                                <option value="pm">pm</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="end-date-select-ID">End date</label>
-                        <select class="form-control" id="end-date-select-ID"></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="start-time-select-ID">Start time</label>
-                        <select class="form-control" id="start-time-select-ID"></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="end-time-select-ID">End time</label>
-                        <select class="form-control" id="end-time-select-ID"></select>
+                    <div class="form-inline">
+                        <div class="form-group time-select" id="end-time-selectID">
+                            <label for="end-hour-select-ID">Hour</label>
+                            <select class="form-control" id="end-hour-select-ID">
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                            </select>
+
+                            <label for="end-min-select-ID">Min</label>
+                            <select class="form-control min-select" id="end-min-select-ID"></select>
+                            <!-- <label for="start-time-select-ID">AM-PM</label> -->
+                            <select class="form-control" id="end-ampm-select-ID">
+                                <option value="am">am</option>
+                                <option value="pm">pm</option>
+
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="event-description-input-ID">Description</label>
@@ -82,7 +115,16 @@
                     </div>
                     <div class="form-group">
                         <label for="event-color-select-ID">Color</label>
-                        <select class="form-control" id="event-color-select-ID"></select>
+                        <select class="form-control" id="event-color-select-ID">
+                            <option value="red">red</option>
+                            <option value="green">green</option>
+                            <option value="blue">blue</option>
+                            <option value="yellow">yellow</option>
+                            <option value="orange">orange</option>
+                            <option value="cyan">cyan</option>
+                            <option value="purple">purple</option>
+
+                        </select>
                     </div>
                     <button class="btn" type="submit" id="edit-event-submit-ID">OK</button>
                 </form>
