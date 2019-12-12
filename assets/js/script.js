@@ -45,23 +45,24 @@ function test() {
     var e3 = new myEvent;
     var e4 = new myEvent;
 
-    e0.set("bass", "upright", "yellow", "2019-12-12T09:00:00-05:00", "2019-12-12T09:30:00-05:00", "");
-    e1.set("bootcamp", "ajax", "red", "2019-12-12T09:45:00-05:00", "2019-12-12T12:50:00-05:00", "");
-    e2.set("code", "homework", "blue", "2019-12-12T13:10:00-05:00", "2019-12-12T13:35:00-05:00", "");
-    e3.set("bass", "upright", "green", "2019-12-12T15:15:00-05:00", "2019-12-12T15:30:00-05:00", "");
-    e4.set("class", "upright", "purple", "2019-12-12T16:25:00-05:00", "2019-12-12T16:55:00-05:00", "");
+    e0.set("", "bass", "upright", "yellow", "2019-12-12T09:00:00-05:00", "2019-12-12T09:30:00-05:00");
+    e1.set("", "bootcamp", "ajax", "red", "2019-12-12T09:45:00-05:00", "2019-12-12T12:50:00-05:00");
+    e2.set("", "code", "homework", "blue", "2019-12-12T13:10:00-05:00", "2019-12-12T13:35:00-05:00");
+    e3.set("", "bass", "upright", "green", "2019-12-12T15:15:00-05:00", "2019-12-12T15:30:00-05:00");
+    e4.set("", "class", "upright", "purple", "2019-12-12T16:25:00-05:00", "2019-12-12T16:55:00-05:00");
 
     var ea = [e0, e1, e2, e3, e4];
     console.log(ea);
+    // setLocalStorage(ea);
     var ls = getLocalStorage();
     console.log(ls);
-    setLocalStorage(ea);
-    ls = getLocalStorage();
-    console.log(ls);
+
+    // ls = getLocalStorage();
+    // console.log(ls);
 
     // displayEvent(e1);
 
-    var events = getEventsByDate(testMoment, ea);
+    var events = getEventsByDate(testMoment, ls);
     console.log("**********")
     console.log(events);
 
@@ -92,16 +93,18 @@ function myEvent() {
     this.colorId = "";
     this.start = "";
     this.end = "";
-    this.duration = "";
 
-    this.set = function(summary = "", description = "", colorId = "", start = "", end = "", duration = "") {
-        this.dataID = Math.random().toString(36).substr(2, 16);
+    this.set = function(dataID = "", summary = "", description = "", colorId = "", start = "", end = "") {
+        this.dataID = dataID;
+        if (this.dataID === "") {
+            this.dataID = Math.random().toString(36).substr(2, 16);
+        }
         this.summary = summary;
         this.description = description;
         this.colorId = colorId;
         this.start = start;
         this.end = end;
-        this.duration = duration;
+
     };
 
 };
@@ -273,16 +276,12 @@ var editFormValid = {
 }
 
 function editFormCheck() {
-
     // if (formValid.title && editFormValid.startTime && editFormValid.endTime) {
     if (editFormValid.title && editFormValid.startTime && editFormValid.endTime) {
-
         $('#edit-event-submit-ID').removeAttr('disabled'); // Allow submitting of form
     } else {
         $('#edit-event-submit-ID').attr('disabled', true); // Block form from being submitted
     }
-
-
 }
 
 $(".time-select").on("change", function() {
@@ -300,11 +299,8 @@ $(".time-select").on("change", function() {
     } else {
         editFormValid.startTime = false;
         editFormValid.endTime = false;
-
         $("#end-time-error-ID").text("End time must be later than start time.").show();
     }
-
-
 });
 
 $("#event-summary-input-ID").on("input", function() {
@@ -328,8 +324,54 @@ $(".hour-select").on("change", function() {
     $(sibs[3]).val(ampm);
 });
 
+$("#edit-event-cancel-ID").on("click", function() {
+    // return to main-view
+});
+
+$("#edit-event-delete-ID").on("click", function() {
+    event.preventDefault();
+    if (confirm("DELETE: Are you sure?")) {
+        // delete event from local storage
+        var id = $("#event-dataID-ID").attr("data-id");
+        removeFromLocalStorageByID(id);
+        //return tom main view
+    }
+});
+
+function removeFromLocalStorageByID(id) {
+    var eArray = getLocalStorage();
+    var index = eArray.findIndex(function(e) {
+        return e.dataID === id;
+    });
+    if (index !== -1) {
+        eArray.splice(index, 1);
+        setLocalStorage(eArray);
+    }
+
+}
+
 $("#edit-event-submit-ID").on("click", function(event) {
     event.preventDefault();
+    var id = $("#event-dataID-ID").attr("data-id");
+    var summary = $("#event-summary-input-ID").val();
+    var description = $("#event-description-input-ID").val();
+    var colorId = $("#event-color-select-ID").val();
+    var start = getMomentFromTimeSelector("#start-time-selectID");
+    var end = getMomentFromTimeSelector("#end-time-selectID");
+    console.log(start.format(), end.format());
+    var eventObj = new myEvent;
+    eventObj.set(id, summary, description, colorId, start.format(), end.format());
+    removeFromLocalStorageByID(id);
+    var eArray = getLocalStorage();
+    // var index = eArray.findIndex(function(e) {
+    //     return e.dataID === id;
+    // });
+    // if (index !== -1) {
+    //     eArray.splice(index, 1);
+    // }
+    eArray.push(eventObj);
+    setLocalStorage(eArray);
+    //set to main-view
 
 });
 
@@ -348,10 +390,14 @@ $(".event").on("click", function() {
 });
 
 $("#event-edit-button-ID").on("click", function() {
+    // $("#event-event-view-ID").empty();
     // set view to edit-event-view
     //
     ////
-    var event = getEventByID(this.getAttribute("data-id"));
+    var id = $(this).attr("data-id");
+    var event = getEventByID(id);
+    $("#event-dataID-ID").attr("data-id", id);
+    // var event = getEventByID(this.getAttribute("data-id"));
     $("#event-summary-input-ID").val(event.summary);
     var str = moment(event.start).format("MM/DD/YYYY");
     $("#embed-picker").datepicker("setDate", str);
@@ -360,6 +406,11 @@ $("#event-edit-button-ID").on("click", function() {
     $("#event-color-select-ID").val(event.colorId);
     setTimeSelectorsToMomentByID(event.start, "#start-time-selectID");
     setTimeSelectorsToMomentByID(event.end, "#end-time-selectID");
+    editFormValid.title = true;
+    editFormValid.startTime = true;
+    editFormValid.endTime = true;
+    editFormCheck();
+
 });
 
 $("#embed-picker").datepicker({
