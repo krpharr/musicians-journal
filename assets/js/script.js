@@ -15,11 +15,23 @@ test();
 function init() {
     buildTimeLine();
     buildSelectMinInputs();
+    var str = moment().format("MM/DD/YYYY");
+    $("#embed-picker").datepicker("setDate", str);
+    $("#embed-picked").text(str);
+
+    var m = moment("2019-12-12T09:00:00-05:00");
+    // var m = moment();
+    // var roundUp = m.minute() || m.second() || m.millisecond() ? m.add(1, 'hour').startOf('hour') : m.startOf('hour');
+    // start = start.hour();
+    // var end = m.add(1, 'hour');
+    // console.log(m, end);
+    setTimeSelectorsToMomentByID(m, "#start-time-selectID")
+    setTimeSelectorsToMomentByID(m.add(1, 'hour'), "#end-time-selectID")
 }
 
 function test() {
 
-    var testMoment = moment("2019-12-11T01:00:00-05:00");
+    var testMoment = moment("2019-12-12T01:00:00-05:00");
 
     console.log("test moment:\t" + testMoment);
     console.log("test month:\t" + testMoment.month());
@@ -33,11 +45,11 @@ function test() {
     var e3 = new myEvent;
     var e4 = new myEvent;
 
-    e0.set("bass", "upright", "yellow", "2019-12-11T09:00:00-05:00", "2019-12-11T09:30:00-05:00", "");
-    e1.set("bootcamp", "ajax", "red", "2019-12-11T09:45:00-05:00", "2019-12-11T12:50:00-05:00", "");
-    e2.set("code", "homework", "blue", "2019-12-11T13:10:00-05:00", "2019-12-11T13:35:00-05:00", "");
-    e3.set("bass", "upright", "green", "2019-12-11T15:15:00-05:00", "2019-12-11T15:30:00-05:00", "");
-    e4.set("class", "upright", "purple", "2019-12-11T16:25:00-05:00", "2019-12-11T16:55:00-05:00", "");
+    e0.set("bass", "upright", "yellow", "2019-12-12T09:00:00-05:00", "2019-12-12T09:30:00-05:00", "");
+    e1.set("bootcamp", "ajax", "red", "2019-12-12T09:45:00-05:00", "2019-12-12T12:50:00-05:00", "");
+    e2.set("code", "homework", "blue", "2019-12-12T13:10:00-05:00", "2019-12-12T13:35:00-05:00", "");
+    e3.set("bass", "upright", "green", "2019-12-12T15:15:00-05:00", "2019-12-12T15:30:00-05:00", "");
+    e4.set("class", "upright", "purple", "2019-12-12T16:25:00-05:00", "2019-12-12T16:55:00-05:00", "");
 
     var ea = [e0, e1, e2, e3, e4];
     console.log(ea);
@@ -237,12 +249,21 @@ function getMomentFromTimeSelector(id) {
     var min = $(selArray[1]).val();
     var ampm = $(selArray[2]).val();
     if (ampm === "pm") {
-        hour += 12;
+        if (hour < 12) {
+            console.log("pm ! " + hour + "+= 12")
+            hour += 12;
+        }
     }
+    ampm === "am" ? ampm = "A" : ampm = "P";
     date = date.replace(/(\d\d)\/(\d\d)\/(\d{4})/, "$3-$1-$2");
-    var time = hour + ":" + min;
-    var m = moment(date + " " + time);
-    return m.format();
+    // console.log(date);
+    var day = moment(date);
+    var m = day.hour(hour).minute(min);
+    // var mTime = moment(time, "MM-DD-YYYY hh:mm " + ampm);
+    // console.log(mTime);
+    // var time = hour + ":" + min;
+    // var m = moment(date + " " + time, "MM-DD-YYYY HH:mm " + ampm);
+    return m;
 }
 
 var editFormValid = {
@@ -254,22 +275,37 @@ var editFormValid = {
 function editFormCheck() {
 
     // if (formValid.title && editFormValid.startTime && editFormValid.endTime) {
-    if (editFormValid.title) {
+    if (editFormValid.title && editFormValid.startTime && editFormValid.endTime) {
 
         $('#edit-event-submit-ID').removeAttr('disabled'); // Allow submitting of form
     } else {
         $('#edit-event-submit-ID').attr('disabled', true); // Block form from being submitted
     }
 
-    //start-time >= min_time?
-    getMomentFromTimeSelector("#start-time-selectID");
-
-    //end-time <= max_time?
-
-    //end-time > start-time?
-
 
 }
+
+$(".time-select").on("change", function() {
+    //end-time > start-time?
+    var mStart = getMomentFromTimeSelector("#start-time-selectID");
+    var mEnd = getMomentFromTimeSelector("#end-time-selectID");
+    console.log(mStart);
+    console.log(mEnd);
+    console.log(mStart < mEnd);
+    if (mStart < mEnd) {
+        editFormValid.startTime = true;
+        editFormValid.endTime = true;
+        $("#end-time-error-ID").hide();
+
+    } else {
+        editFormValid.startTime = false;
+        editFormValid.endTime = false;
+
+        $("#end-time-error-ID").text("End time must be later than start time.").show();
+    }
+
+
+});
 
 $("#event-summary-input-ID").on("input", function() {
     console.log("*********** on input event-summary-input-ID ******************");
@@ -282,6 +318,14 @@ $("#event-summary-input-ID").on("input", function() {
         $("#event-summary-input-error-ID").hide();
     }
     editFormCheck();
+});
+
+$(".hour-select").on("change", function() {
+    var i = parseInt($(this).val());
+    var ampm;
+    i >= 1 && i < 6 || i === 12 ? ampm = "pm" : ampm = "am";
+    var sibs = $(this).siblings();
+    $(sibs[3]).val(ampm);
 });
 
 $("#edit-event-submit-ID").on("click", function(event) {
@@ -314,21 +358,14 @@ $("#event-edit-button-ID").on("click", function() {
     $("#embed-picked").text(str);
     $("#event-description-input-ID").val(event.description);
     $("#event-color-select-ID").val(event.colorId);
-    setTimeSelectorsToMomentByID(event.start, "#start-time-selectID")
-    setTimeSelectorsToMomentByID(event.end, "#end-time-selectID")
+    setTimeSelectorsToMomentByID(event.start, "#start-time-selectID");
+    setTimeSelectorsToMomentByID(event.end, "#end-time-selectID");
 });
 
 $("#embed-picker").datepicker({
     onSelect: function() {
         $("#embed-picked").text($(this).val());
     }
-
-
 });
 
-
-
-
-//////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////

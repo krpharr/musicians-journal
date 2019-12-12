@@ -53,7 +53,7 @@
                     <div class="form-group">
                         <!-- <label for="event-summary-input-ID">Event Summary</label> -->
                         <input class="" type="text" id="event-summary-input-ID" placeholder="Enter title, people and places.">
-                        <p id="event-summary-input-error-ID"></p>
+                        <p id="event-summary-input-error-ID" style="color:red;"></p>
                     </div>
                     <div>
                         <div id="embed-picker"></div>
@@ -64,7 +64,7 @@
                     <div class="form-inline">
                         <div class="form-group time-select" id="start-time-selectID">
                             <label for="start-hour-select-ID">Hour</label>
-                            <select class="form-control" id="start-hour-select-ID">
+                            <select class="form-control  hour-select" id="start-hour-select-ID">
                                 <option value="9">09</option>
                                 <option value="10">10</option>
                                 <option value="11">11</option>
@@ -83,13 +83,13 @@
                                 <option value="am">am</option>
                                 <option value="pm">pm</option>
                             </select>
-                            <p id="start-time-error-ID"></p>
+                            <!-- <p id="start-time-error-ID"></p> -->
                         </div>
                     </div>
                     <div class="form-inline">
                         <div class="form-group time-select" id="end-time-selectID">
                             <label for="end-hour-select-ID">Hour</label>
-                            <select class="form-control" id="end-hour-select-ID">
+                            <select class="form-control hour-select" id="end-hour-select-ID">
                                 <option value="9">09</option>
                                 <option value="10">10</option>
                                 <option value="11">11</option>
@@ -109,7 +109,7 @@
                                 <option value="pm">pm</option>
 
                             </select>
-                            <p id="end-time-error-ID"></p>
+                            <div id="end-time-error-ID" style="color:red;"></div>
                         </div>
                     </div>
                     <div class="form-group">
