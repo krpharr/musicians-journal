@@ -148,7 +148,15 @@ function displayEvent(event) {
     var width = divArray[startIndex].offsetWidth;
     var width = width - 48;
     var height = divArray[endIndex].offsetTop - top;
-    var str = "top:" + top + "px;left:64px;width:" + width + "px;height:" + height + "px;background-color:" + event.colorId + ";";
+    var bgcolor = event.colorId;
+    console.log("******* displayEvent() *********");
+    console.log(moment(event.end) < moment());
+
+    if (moment(event.end) < moment()) {
+        bgcolor = "grey";
+    }
+    var str = "top:" + top + "px;left:64px;width:" + width + "px;height:" + height + "px;background-color:" + bgcolor + ";";
+    console.log(str);
     eventDiv.attr("style", str);
     $("#itenerary-view-ID").append(eventDiv);
 }
