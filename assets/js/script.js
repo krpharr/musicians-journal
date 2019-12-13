@@ -359,28 +359,64 @@ function removeFromLocalStorageByID(id) {
 
 }
 
-$("#edit-event-submit-ID").on("click", function(event) {
-    event.preventDefault();
-    var id = $("#event-dataID-ID").attr("data-id");
-    var summary = $("#event-summary-input-ID").val();
-    var description = $("#event-description-input-ID").val();
-    var colorId = $("#event-color-select-ID").val();
-    var start = getMomentFromTimeSelector("#start-time-selectID");
-    var end = getMomentFromTimeSelector("#end-time-selectID");
-    console.log(start.format(), end.format());
-    var eventObj = new myEvent;
-    eventObj.set(id, summary, description, colorId, start.format(), end.format());
-    removeFromLocalStorageByID(id);
-    var eArray = getLocalStorage();
-    if (eArray === null) {
-        eArray = [];
+$('#edit-form-ID').on('submit', function(e) {
+    // Check if the form was previously submitted
+    if ($(this).hasClass('form-submitted')) {
+        e.preventDefault(); // Prevent form from being submitted again
+
+    } else {
+        $(this).addClass('form-submitted'); // Add a class to identify form as being submitted already
+        $('#event-summary-input-ID').attr('readonly', true); // Lock 
+        $('#event-description-input-ID').attr('readonly', true); // 
+        $('#edit-event-submit-ID').attr('disabled', true); // 
+        // event.preventDefault();
+        var id = $("#event-dataID-ID").attr("data-id");
+        var summary = $("#event-summary-input-ID").val();
+        var description = $("#event-description-input-ID").val();
+        var colorId = $("#event-color-select-ID").val();
+        var start = getMomentFromTimeSelector("#start-time-selectID");
+        var end = getMomentFromTimeSelector("#end-time-selectID");
+        console.log(start.format(), end.format());
+        var eventObj = new myEvent;
+        eventObj.set(id, summary, description, colorId, start.format(), end.format());
+        removeFromLocalStorageByID(id);
+        var eArray = getLocalStorage();
+        if (eArray === null) {
+            eArray = [];
+        }
+        eArray.push(eventObj);
+        setLocalStorage(eArray);
+        //set to main-view
+        // init();
+        location.reload();
+        setFocus("#main-ID");
     }
-    eArray.push(eventObj);
-    setLocalStorage(eArray);
-    //set to main-view
-    // init();
-    location.reload();
-    setFocus("#main-ID");
+});
+
+$("#edit-event-submit-ID").on("click", function(event) {
+    $('#edit-form-ID').submit();
+
+    // event.preventDefault();
+    // var id = $("#event-dataID-ID").attr("data-id");
+    // var summary = $("#event-summary-input-ID").val();
+    // var description = $("#event-description-input-ID").val();
+    // var colorId = $("#event-color-select-ID").val();
+    // var start = getMomentFromTimeSelector("#start-time-selectID");
+    // var end = getMomentFromTimeSelector("#end-time-selectID");
+    // console.log(start.format(), end.format());
+    // var eventObj = new myEvent;
+    // eventObj.set(id, summary, description, colorId, start.format(), end.format());
+    // removeFromLocalStorageByID(id);
+    // var eArray = getLocalStorage();
+    // if (eArray === null) {
+    //     eArray = [];
+    // }
+    // eArray.push(eventObj);
+    // setLocalStorage(eArray);
+    // //set to main-view
+    // // init();
+    // location.reload();
+    // setFocus("#main-ID");
 
 });
 
