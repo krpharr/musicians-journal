@@ -5,6 +5,8 @@ var eventArray = [];
 
 var containerArray = ["#main-ID", "#view-ID", "#edit-ID"];
 
+var max_hour = 17;
+
 $("#year").text(year);
 $("#month").text(month);
 $("#date").text(date);
@@ -55,10 +57,6 @@ function init() {
 
         }
     }
-
-
-
-
 
     setFocus("#main-ID");
 }
