@@ -59,4 +59,16 @@ p {
     margin: 16px auto!important;
 }
 
-.event-date-class {}
+.newButton {
+    position: fixed;
+    bottom: 10%;
+    right: 10%;
+    background-color: lightgreen;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    font-size: 36px;
+    color: white;
+    font-weight: bold;
+    border: 1px blue solid;
+}
