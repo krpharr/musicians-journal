@@ -382,11 +382,20 @@ $(".event").on("click", function() {
     ////
     var event = getEventByID(this.getAttribute("data-id"));
     $("#event-summary-ID").text(event.summary);
-    $("#event-start-ID").text(event.start);
-    $("#event-end-ID").text(event.end);
-    $("#event-duration-ID").text(event.duration);
-    $("#event-description-ID").text(event.description);
-    $("#event-colorId-ID").text(event.colorId);
+
+    $("#event-colorId-ID").attr("style", "background-color:" + event.colorId + ";height:24px;width:100%;");
+
+    var m = moment(event.start);
+    var str = m.month() + 1 + "/" + m.date() + "/" + m.year();
+    $("#event-date-ID").text(str);
+    str = m.format("hh:mm a");
+    $("#event-start-ID").text("Start:\t" + str);
+    var m = moment(event.end);
+    str = m.format("hh:mm a");
+    $("#event-end-ID").text("End:\t" + str);
+
+    $("#event-description-ID").html("<h5>Description</h5><p>" + event.description + "</p>");
+
     $("#event-edit-button-ID").attr("data-id", event.dataID);
 });
 
