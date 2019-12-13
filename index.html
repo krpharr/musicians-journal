@@ -30,9 +30,7 @@
         </div> -->
 
         <div class="row">
-
             <div class="col-12 mt-3 position-relative">
-
                 <div class="container" id="main-ID">
                     <div class="col-sm-12 col-md-6 position-relative" id="itenerary-view-ID">
                     </div>
@@ -46,7 +44,6 @@
                         <h1 id="main-date-ID"></h1>
                     </div>
                 </div>
-
                 <div class="container" id="view-ID">
                     <div class="col-12  position-relative" id="event-view-ID">
                         <h3 class="font-weight-bolder p-2" id="event-summary-ID">
@@ -55,96 +52,102 @@
                         <div class="event-date-class p-2">
                             <p id="event-date-ID"></p>
                             <div>
-                                <p class="d-inline " id="event-start-ID"></p>
-                                <p class="d-inline  ml-2" id="event-end-ID"></p>
+                                <p class="d-inline" id="event-start-ID"></p>
+                                <p class="d-inline ml-2" id="event-end-ID"></p>
                             </div>
-
                         </div>
-
                         <div class="event-date-class p-2">
                             <h5>Description</h5>
                             <p id="event-description-ID"></p>
                         </div>
-
                         <div class="text-center p-3">
                             <button class="btn btn-outline-dark m-2" id="event-cancel-button-ID">Cancel</button>
                             <button class="btn btn-outline-dark m-2" id="event-edit-button-ID">Edit</button>
                         </div>
-
                     </div>
-
                 </div>
 
                 <div class="container" id="edit-ID">
-                    <div class="col-sm-12 col-md-6  position-relative" id="edit-event-view-ID">
+                    <div class="col-12  position-relative" id="edit-event-view-ID">
                         <form id="edit-form-ID">
                             <div class="form-group">
                                 <!-- <label for="event-summary-input-ID">Event Summary</label> -->
-                                <input class="" type="text" id="event-summary-input-ID" placeholder="Enter title, people and places.">
+                                <input class="border-0 col-12" type="text" id="event-summary-input-ID" placeholder="Enter title, people and places.">
                                 <p id="event-summary-input-error-ID" style="color:red;"></p>
                             </div>
-                            <div>
+                            <div class="col-12 text-center">
                                 <div id="embed-picker"></div>
                                 <div>
                                     <h3 id="embed-picked"></h3>
                                 </div>
                             </div>
-                            <div class="form-inline">
+                            <div class="form-inline justify-content-center">
                                 <div class="form-group time-select" id="start-time-selectID">
-                                    <label for="start-hour-select-ID">Start</label>
-                                    <select class="form-control  hour-select" id="start-hour-select-ID">
-                                                <option value="9">09</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                                <option value="1">01</option>
-                                                <option value="2">02</option>
-                                                <option value="3">03</option>
-                                                <option value="4">04</option>
-                                                <!-- <option value="5">05</option> -->
-                
-                                            </select>
-                                    <label for="start-min-select-ID">Min</label>
-                                    <select class="form-control min-select" id="start-min-select-ID"></select>
-                                    <!-- <label for="start-time-select-ID">AM-PM</label> -->
-                                    <select class="form-control" id="start-ampm-select-ID">
-                                                <option value="am">am</option>
-                                                <option value="pm">pm</option>
-                                            </select>
-                                    <!-- <p id="start-time-error-ID"></p> -->
+                                    <div class="input-group-prepend">
+                                        <label for="start-hour-select-ID">Start</label>
+                                        <select class="form-control  hour-select d-inline" id="start-hour-select-ID">
+                                                    <option value="9">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="1">01</option>
+                                                    <option value="2">02</option>
+                                                    <option value="3">03</option>
+                                                    <option value="4">04</option>
+                                                    <!-- <option value="5">05</option> -->
+                                                </select>
+                                        <label for="start-min-select-ID">Min</label>
+                                        <select class="form-control min-select d-inline" id="start-min-select-ID"></select>
+                                        <!-- <label for="start-time-select-ID">AM-PM</label> -->
+                                        <select class="form-control  d-inline" id="start-ampm-select-ID">
+                                                    <option value="am">am</option>
+                                                    <option value="pm">pm</option>
+                                                </select>
+                                        <!-- <p id="start-time-error-ID"></p> -->
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-inline">
-                                <div class="form-group time-select" id="end-time-selectID">
-                                    <label for="end-hour-select-ID">End</label>
-                                    <select class="form-control hour-select" id="end-hour-select-ID">
-                                                <option value="9">09</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                                <option value="1">01</option>
-                                                <option value="2">02</option>
-                                                <option value="3">03</option>
-                                                <option value="4">04</option>
-                                                <option value="5">05</option>
-                                            </select>
+                            <div class="form-inline justify-content-center">
 
-                                    <label for="end-min-select-ID">Min</label>
-                                    <select class="form-control min-select" id="end-min-select-ID"></select>
-                                    <!-- <label for="start-time-select-ID">AM-PM</label> -->
-                                    <select class="form-control" id="end-ampm-select-ID">
-                                                <option value="am">am</option>
-                                                <option value="pm">pm</option>
-                
-                                            </select>
-                                    <div id="end-time-error-ID" style="color:red;"></div>
+                                <div class="form-group input-group-sm time-select" id="end-time-selectID">
+                                    <div class="input-group-prepend">
+                                        <label for="end-hour-select-ID">End</label>
+                                        <select class="form-control hour-select d-inline" id="end-hour-select-ID">
+                                                    <option value="9">09</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="1">01</option>
+                                                    <option value="2">02</option>
+                                                    <option value="3">03</option>
+                                                    <option value="4">04</option>
+                                                    <option value="5">05</option>
+                                                </select>
+
+                                        <label for="end-min-select-ID">Min</label>
+                                        <select class="form-control min-select d-inline" id="end-min-select-ID"></select>
+                                        <!-- <label for="start-time-select-ID">AM-PM</label> -->
+                                        <select class="form-control d-inline" id="end-ampm-select-ID">
+                                                    <option value="am">am</option>
+                                                    <option value="pm">pm</option>
+                    
+                                                </select>
+
+
+                                    </div>
+
+
                                 </div>
+
+
                             </div>
-                            <div class="form-group">
+                            <div class="col-12 text-center" id="end-time-error-ID" style="color:red;"></div>
+
+                            <div class="form-group justify-content-center">
                                 <label for="event-description-input-ID">Description</label>
-                                <input class="" type="text" id="event-description-input-ID">
+                                <input class="col-12" type="text" id="event-description-input-ID">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group justify-content-center">
                                 <label for="event-color-select-ID">Color</label>
                                 <select class="form-control" id="event-color-select-ID">
                                             <option value="red">red</option>
@@ -157,9 +160,12 @@
                                         </select>
                             </div>
                             <div id="event-dataID-ID" display="none"></div>
-                            <button class="btn" type="cancel" id="edit-event-cancel-ID">Cancel</button>
-                            <button class="btn" type="submit" id="edit-event-submit-ID" disabled>OK</button>
-                            <button class="btn" type="submit" id="edit-event-delete-ID">Delete</button>
+                            <div class="text-center p-3">
+                                <button class="btn btn-outline-dark m-2" type="cancel" id="edit-event-cancel-ID">Cancel</button>
+                                <button class="btn btn-outline-dark m-2" type="submit" id="edit-event-submit-ID" disabled>OK</button>
+                                <button class="btn btn-outline-dark m-2" type="submit" id="edit-event-delete-ID">Delete</button>
+
+                            </div>
                         </form>
                     </div>
                 </div>

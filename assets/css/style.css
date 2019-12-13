@@ -55,4 +55,8 @@ p {
     ;
 }
 
+.ui-datepicker {
+    margin: 16px auto!important;
+}
+
 .event-date-class {}

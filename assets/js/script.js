@@ -228,7 +228,11 @@ function setTimeSelectorsToMomentByID(time, id) {
     var min = ("0" + m.minute()).slice(-2);
     console.log("*********** setTimeSelectorsToMomentByID ******************")
     console.log(hour, min, ampm);
-    var selArray = $(id).children("select");
+
+    var inputGroup = $(id).children(".input-group-prepend");
+    var selArray = inputGroup.children("select");
+
+    // var selArray = $(id).children("select");
     console.log(selArray);
     console.log(typeof hour);
     $(selArray[0]).val(parseInt(hour)); // values were hard coded as integers
@@ -238,7 +242,8 @@ function setTimeSelectorsToMomentByID(time, id) {
 }
 
 function getMomentFromTimeSelector(id) {
-    var selArray = $(id).children("select");
+    var inputGroup = $(id).children(".input-group-prepend");
+    var selArray = inputGroup.children("select");
     var date = $("#embed-picked").text();
     var hour = parseInt($(selArray[0]).val());
     var min = $(selArray[1]).val();
