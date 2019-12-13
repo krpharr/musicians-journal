@@ -154,6 +154,15 @@ function getEventsByDate(dateStr, eventArray) {
 
 function displayEvent(event) {
     // find div to attach event to 
+
+    if (moment(event.end).hour() >= 17) {
+        console.log("********* displayEvent(event) *******************");
+        console.log(event.end);
+        event.end = moment(event.end).hour(16).minute(55).format();
+        console.log(event.end);
+    }
+
+
     var divArray = $(".five-minute-block");
     var divEl = null;
     var startIndex = null;
