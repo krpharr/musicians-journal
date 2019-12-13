@@ -21,7 +21,7 @@ function init() {
     $("#embed-picker").datepicker("setDate", str);
     $("#embed-picked").text(str);
 
-    var m = moment("2019-12-12T09:00:00-05:00");
+    var m = moment("2019-12-13T09:00:00-05:00");
     // var m = moment();
     // var roundUp = m.minute() || m.second() || m.millisecond() ? m.add(1, 'hour').startOf('hour') : m.startOf('hour');
     // start = start.hour();
