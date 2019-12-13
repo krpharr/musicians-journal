@@ -351,7 +351,7 @@ function removeFromLocalStorageByID(id) {
 
 }
 
-$("#edit-event-submit-ID").on("click", function(event) {
+$("#edit-event-submit-ID").on("submit", function(event) {
     event.preventDefault();
     var id = $("#event-dataID-ID").attr("data-id");
     var summary = $("#event-summary-input-ID").val();
@@ -370,11 +370,14 @@ $("#edit-event-submit-ID").on("click", function(event) {
     eArray.push(eventObj);
     setLocalStorage(eArray);
     //set to main-view
-    // init();
+    init();
     location.reload();
     setFocus("#main-ID");
 
 });
+
+
+
 
 $(".event").on("click", function() {
     // set view to event-view
