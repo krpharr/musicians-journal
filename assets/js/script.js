@@ -3,6 +3,8 @@ var month = moment().month();
 var date = moment().date();
 var eventArray = [];
 
+var containerArray = ["#main-ID", "#view-ID", "#edit-ID"];
+
 $("#year").text(year);
 $("#month").text(month);
 $("#date").text(date);
@@ -10,7 +12,7 @@ $("#time").text(moment().hour() + ":" + moment().min());
 
 init();
 
-test();
+// test();
 
 function init() {
     buildTimeLine();
@@ -25,8 +27,34 @@ function init() {
     // start = start.hour();
     // var end = m.add(1, 'hour');
     // console.log(m, end);
-    setTimeSelectorsToMomentByID(m, "#start-time-selectID")
-    setTimeSelectorsToMomentByID(m.add(1, 'hour'), "#end-time-selectID")
+    setTimeSelectorsToMomentByID(m, "#start-time-selectID");
+    setTimeSelectorsToMomentByID(m.add(1, 'hour'), "#end-time-selectID");
+
+
+    var ls = getLocalStorage();
+    console.log(ls);
+
+    // ls = getLocalStorage();
+    // console.log(ls);
+
+    // displayEvent(e1);
+    if (ls !== null) {
+        var events = getEventsByDate(m, ls);
+        if (events.length > 0) {
+            console.log("**********")
+            console.log(events);
+            events.forEach(event => {
+                displayEvent(event);
+            });
+
+        }
+    }
+
+
+
+
+
+    setFocus("#main-ID");
 }
 
 function test() {
@@ -70,21 +98,6 @@ function test() {
         displayEvent(event);
     });
 }
-
-// created: "",
-// updated: "",
-// summary: "",
-// description: "",
-// colorId: "",
-// start: "",
-// end: "",
-// duration: "",
-// type: "",
-// origin: "",
-// destination: "",
-// mileage: "",
-// rate: "",
-// pay: "",
 
 function myEvent() {
     this.dataID = "";
@@ -284,6 +297,15 @@ function editFormCheck() {
     }
 }
 
+function setFocus(containerID) {
+    containerArray.forEach(c => {
+        console.log("*********  setFocus(container)  ***************");
+        console.log("container", containerID);
+        console.log("c", c);
+        c === containerID ? $(c).show() : $(c).hide();
+    });
+}
+
 $(".time-select").on("change", function() {
     //end-time > start-time?
     var mStart = getMomentFromTimeSelector("#start-time-selectID");
@@ -301,6 +323,7 @@ $(".time-select").on("change", function() {
         editFormValid.endTime = false;
         $("#end-time-error-ID").text("End time must be later than start time.").show();
     }
+    editFormCheck();
 });
 
 $("#event-summary-input-ID").on("input", function() {
@@ -324,8 +347,16 @@ $(".hour-select").on("change", function() {
     $(sibs[3]).val(ampm);
 });
 
+
+$("#event-cancel-button-ID").on("click", function() {
+    // return to main-view
+    setFocus("#main-ID");
+});
+
+
 $("#edit-event-cancel-ID").on("click", function() {
     // return to main-view
+    setFocus("#main-ID");
 });
 
 $("#edit-event-delete-ID").on("click", function() {
@@ -335,18 +366,23 @@ $("#edit-event-delete-ID").on("click", function() {
         var id = $("#event-dataID-ID").attr("data-id");
         removeFromLocalStorageByID(id);
         //return tom main view
+        location.reload();
+        setFocus("#main-ID");
     }
 });
 
 function removeFromLocalStorageByID(id) {
     var eArray = getLocalStorage();
-    var index = eArray.findIndex(function(e) {
-        return e.dataID === id;
-    });
-    if (index !== -1) {
-        eArray.splice(index, 1);
-        setLocalStorage(eArray);
+    if (eArray !== null) {
+        var index = eArray.findIndex(function(e) {
+            return e.dataID === id;
+        });
+        if (index !== -1) {
+            eArray.splice(index, 1);
+            setLocalStorage(eArray);
+        }
     }
+
 
 }
 
@@ -363,20 +399,20 @@ $("#edit-event-submit-ID").on("click", function(event) {
     eventObj.set(id, summary, description, colorId, start.format(), end.format());
     removeFromLocalStorageByID(id);
     var eArray = getLocalStorage();
-    // var index = eArray.findIndex(function(e) {
-    //     return e.dataID === id;
-    // });
-    // if (index !== -1) {
-    //     eArray.splice(index, 1);
-    // }
+    if (eArray === null) {
+        eArray = [];
+    }
     eArray.push(eventObj);
     setLocalStorage(eArray);
     //set to main-view
+    location.reload();
+    setFocus("#main-ID");
 
 });
 
 $(".event").on("click", function() {
     // set view to event-view
+    setFocus("#view-ID");
     //
     ////
     var event = getEventByID(this.getAttribute("data-id"));
@@ -387,6 +423,15 @@ $(".event").on("click", function() {
     $("#event-description-ID").text(event.description);
     $("#event-colorId-ID").text(event.colorId);
     $("#event-edit-button-ID").attr("data-id", event.dataID);
+});
+
+$("#new-event-button-ID").on("click", function() {
+    // initilize form
+    editFormValid.startTime = true;
+    editFormValid.endTime = true;
+    editFormCheck();
+    setFocus("#edit-ID");
+
 });
 
 $("#event-edit-button-ID").on("click", function() {
@@ -410,6 +455,7 @@ $("#event-edit-button-ID").on("click", function() {
     editFormValid.startTime = true;
     editFormValid.endTime = true;
     editFormCheck();
+    setFocus("#edit-ID");
 
 });
 
