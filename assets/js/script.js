@@ -330,7 +330,8 @@ $("#edit-event-delete-ID").on("click", function() {
         var id = $("#event-dataID-ID").attr("data-id");
         removeFromLocalStorageByID(id);
         //return tom main view
-        init();
+        // init();
+        location.reload();
         setFocus("#main-ID");
     }
 });
@@ -403,7 +404,9 @@ $("#new-event-button-ID").on("click", function() {
     editFormValid.startTime = true;
     editFormValid.endTime = true;
     editFormCheck();
+    $("#edit-event-delete-ID").hide();
     setFocus("#edit-ID");
+
 
 });
 
@@ -423,6 +426,7 @@ $("#event-edit-button-ID").on("click", function() {
     editFormValid.startTime = true;
     editFormValid.endTime = true;
     editFormCheck();
+    $("#edit-event-delete-ID").show();
     setFocus("#edit-ID");
 
 });
