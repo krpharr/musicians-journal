@@ -430,6 +430,9 @@ $(".event").on("click", function() {
 
     $("#event-colorId-ID").attr("style", "background-color:" + event.colorId + ";height:24px;width:100%;");
 
+
+    $(".event-date-class").attr("style", "border:" + event.colorId + " 2px solid;");
+
     var m = moment(event.start);
     var str = m.month() + 1 + "/" + m.date() + "/" + m.year();
     $("#event-date-ID").text(str);
@@ -439,7 +442,7 @@ $(".event").on("click", function() {
     str = m.format("hh:mm a");
     $("#event-end-ID").text("End:\t" + str);
 
-    $("#event-description-ID").html("<h5>Description</h5><p>" + event.description + "</p>");
+    $("#event-description-ID").text(event.description);
 
     $("#event-edit-button-ID").attr("data-id", event.dataID);
 });

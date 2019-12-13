@@ -48,18 +48,29 @@
                 </div>
 
                 <div class="container" id="view-ID">
-                    <div class="col-sm-12 col-md-6  position-relative" id="event-view-ID">
-                        <h3 id="event-summary-ID">
+                    <div class="col-12  position-relative" id="event-view-ID">
+                        <h3 class="font-weight-bolder p-2" id="event-summary-ID">
                         </h3>
                         <p id="event-colorId-ID"></p>
-                        <p id="event-date-ID"></p>
-                        <p id="event-start-ID"></p>
-                        <p id="event-end-ID"></p>
+                        <div class="event-date-class p-2">
+                            <p id="event-date-ID"></p>
+                            <div>
+                                <p class="d-inline " id="event-start-ID"></p>
+                                <p class="d-inline  ml-2" id="event-end-ID"></p>
+                            </div>
 
-                        <p id="event-description-ID"></p>
+                        </div>
 
-                        <button id="event-cancel-button-ID">Cancel</button>
-                        <button id="event-edit-button-ID">Edit</button>
+                        <div class="event-date-class p-2">
+                            <h5>Description</h5>
+                            <p id="event-description-ID"></p>
+                        </div>
+
+                        <div class="text-center p-3">
+                            <button class="btn btn-outline-dark m-2" id="event-cancel-button-ID">Cancel</button>
+                            <button class="btn btn-outline-dark m-2" id="event-edit-button-ID">Edit</button>
+                        </div>
+
                     </div>
 
                 </div>
