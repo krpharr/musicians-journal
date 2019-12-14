@@ -12,6 +12,10 @@ if (lsDate === null) {
 var containerArray = ["#main-ID", "#view-ID", "#edit-ID"];
 var max_hour = 17;
 
+var interval = setInterval(function() {
+    location.reload();
+}, 1000 * 60);
+
 init();
 
 function init() {
