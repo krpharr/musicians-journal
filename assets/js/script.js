@@ -13,8 +13,11 @@ var containerArray = ["#main-ID", "#view-ID", "#edit-ID"];
 var max_hour = 17;
 
 var interval = setInterval(function() {
-    location.reload();
-}, 1000 * 60);
+    if (moment().second() === 0) {
+        location.reload();
+    }
+
+}, 1000);
 
 init();
 
